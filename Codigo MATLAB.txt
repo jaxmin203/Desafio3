@@ -1,0 +1,24 @@
+% Vector de ejemplos (valores de x en radianes) y número de términos
+x_values = [pi/6, pi/4, pi/3, pi/2, pi, 3*pi/2, 2*pi, pi/8, pi/12, pi/10];
+n_values = [3, 4, 5, 6, 7, 8, 9, 5, 4, 3];
+
+% Función de la serie de Taylor para sin(x)
+taylor_sin = @(x, n) sum(arrayfun(@(i) (-1)^i * x^(2*i+1) / factorial(2*i+1), 0:n-1));
+
+% Calcular aproximación de Taylor, valor exacto y error absoluto
+approx_sin = arrayfun(taylor_sin, x_values, n_values);
+exact_sin = sin(x_values);
+abs_error = abs(exact_sin - approx_sin);
+
+% Mostrar resultados en una tabla
+T = table(x_values', n_values', approx_sin', exact_sin', abs_error', ...
+    'VariableNames', {'x (radianes)', 'Términos (n)', 'Aproximación de Taylor', 'Valor Exacto', 'Error Absoluto'});
+disp(T);
+
+% Graficar aproximación vs valor exacto
+figure;
+plot(x_values, exact_sin, 'r-o', x_values, approx_sin, 'b-*', 'LineWidth', 2);
+xlabel('x (radianes)'), ylabel('sin(x)');
+legend('Valor Exacto', 'Aproximación de Taylor');
+title('Comparación entre Aproximación de Taylor y Valor Exacto');
+grid on;
